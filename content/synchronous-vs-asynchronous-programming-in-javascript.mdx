@@ -1,0 +1,125 @@
+---
+title: "Synchronous vs Asynchronous Programming in JavaScript"
+publishedAt: "2024-10-06"
+summary: "My first post on my new blog."
+---
+
+Here’s a Markdown article explaining synchronous and asynchronous programming in JavaScript:
+
+```markdown
+# Synchronous vs Asynchronous Programming in JavaScript
+
+JavaScript is a single-threaded, non-blocking, and asynchronous language. It handles tasks synchronously by default but supports asynchronous operations through specific mechanisms. Understanding the difference between these two paradigms is crucial for building efficient and responsive web applications.
+
+## Synchronous Programming
+
+In **synchronous programming**, tasks are executed one after another, and each task must complete before the next one begins. This ensures that code runs in a specific, predictable order. However, this can lead to performance bottlenecks if tasks take a long time to complete, such as when reading files or fetching data from an API.
+
+### Example of Synchronous Code:
+
+```js
+console.log('Task 1 started');
+console.log('Task 1 completed');
+
+console.log('Task 2 started');
+console.log('Task 2 completed');
+```
+
+In this case, tasks are executed sequentially. Task 2 won't begin until Task 1 is fully finished. This works fine for quick operations, but for tasks like network requests or database queries, this would block the execution of other code.
+
+## Asynchronous Programming
+
+**Asynchronous programming** allows multiple tasks to be executed without waiting for each task to complete. Instead, tasks can continue running in the background while other code executes. This approach makes JavaScript particularly effective in handling time-consuming operations like API calls, file handling, or database operations.
+
+### Example of Asynchronous Code:
+
+```js
+console.log('Task 1 started');
+setTimeout(() => {
+    console.log('Task 1 completed after 2 seconds');
+}, 2000);
+
+console.log('Task 2 started');
+console.log('Task 2 completed');
+```
+
+In this example, `setTimeout` is used to simulate an asynchronous operation (Task 1) that completes after 2 seconds. Task 2 starts and completes immediately, without waiting for Task 1. JavaScript's event loop handles this behavior, allowing the program to continue executing while waiting for the asynchronous operation to finish.
+
+## How Asynchronous Code Works in JavaScript
+
+JavaScript uses several mechanisms to handle asynchronous programming:
+
+### 1. **Callbacks**
+
+Callbacks are functions passed as arguments to other functions, allowing you to define what should happen once an asynchronous task is completed.
+
+#### Example of a Callback:
+
+```js
+function fetchData(callback) {
+    setTimeout(() => {
+        const data = { name: 'John Doe', age: 25 };
+        callback(data);
+    }, 2000);
+}
+
+fetchData((data) => {
+    console.log('Data received:', data);
+});
+```
+
+In this example, `fetchData` uses a callback function to return the data once it's available, after 2 seconds.
+
+### 2. **Promises**
+
+A `Promise` represents a value that may not be available yet but will be resolved in the future. Promises make handling asynchronous code more readable and manageable.
+
+#### Example of Promises:
+
+```js
+const fetchData = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        const data = { name: 'John Doe', age: 25 };
+        resolve(data);
+    }, 2000);
+});
+
+fetchData.then((data) => {
+    console.log('Data received:', data);
+}).catch((error) => {
+    console.log('Error:', error);
+});
+```
+
+Here, `fetchData` is a Promise that resolves with data after 2 seconds. The `.then()` method is used to handle the resolved value, and `.catch()` handles any potential errors.
+
+### 3. **Async/Await**
+
+`async/await` is built on top of Promises and allows you to write asynchronous code in a synchronous manner, making it easier to read and maintain.
+
+#### Example of Async/Await:
+
+```js
+function fetchData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const data = { name: 'John Doe', age: 25 };
+            resolve(data);
+        }, 2000);
+    });
+}
+
+async function getData() {
+    try {
+        const data = await fetchData();
+        console.log('Data received:', data);
+    } catch (error) {
+        console.log('Error:', error);
+    }
+}
+
+getData();
+```
+
+In this example, the `await` keyword pauses the execution of the `getData` function until the `fetchData` Promise resolves. This makes asynchronous code easier to follow, as it resembles synchronous code.
+

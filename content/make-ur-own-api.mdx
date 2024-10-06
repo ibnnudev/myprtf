@@ -1,0 +1,78 @@
+---
+title: "Make Ur Own API"
+publishedAt: "2024-10-06"
+summary: "This article will guide you through the process of creating your own API using Node.js and Express."
+---
+
+# Best Practices for Building APIs in Express
+
+## 1. Use proper HTTP methods
+- GET: Retrieve resources
+- POST: Create new resources
+- PUT: Update existing resources
+- DELETE: Remove resources
+
+## 2. Implement proper error handling
+```javascript
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+```
+
+## 3. Use middleware for common functionalities
+- Body parsing: `express.json()`
+- CORS: `cors()`
+- Logging: `morgan`
+
+## 4. Implement input validation
+Use libraries like `joi` or `express-validator` to validate incoming data.
+
+## 5. Use environment variables for configuration
+```javascript
+require('dotenv').config();
+const port = process.env.PORT || 3000;
+```
+
+## 6. Implement rate limiting
+Use `express-rate-limit` to prevent abuse.
+
+## 7. Use async/await for asynchronous operations
+```javascript
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+```
+
+## 8. Implement proper versioning
+Use URL versioning: `/api/v1/users`
+
+## 9. Use meaningful HTTP status codes
+- 200: OK
+- 201: Created
+- 400: Bad Request
+- 401: Unauthorized
+- 404: Not Found
+- 500: Internal Server Error
+
+## 10. Implement proper security measures
+- Use HTTPS
+- Implement authentication and authorization
+- Sanitize user inputs
+- Set security headers using `helmet`
+
+## 11. Document your API
+Use tools like Swagger or API Blueprint for comprehensive documentation.
+
+## 12. Write tests
+Use libraries like Jest or Mocha for unit and integration testing.
+
+## 13. Use a consistent naming convention
+Use plural nouns for resource names: `/users` instead of `/user`
+
+By following these best practices, you can create robust, secure, and maintainable APIs using Express.

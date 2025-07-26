@@ -11,6 +11,7 @@ import React from "react";
 
 interface ResumeCardProps {
   logoUrl: string;
+  logoFrom?: string;
   altText: string;
   title: string;
   subtitle?: string;
@@ -22,6 +23,7 @@ interface ResumeCardProps {
 }
 export const ResumeCard = ({
   logoUrl,
+  logoFrom,
   altText,
   title,
   subtitle,
@@ -49,11 +51,21 @@ export const ResumeCard = ({
       <Card className="flex">
         <div className="flex-none">
           <Avatar className="border size-12 m-auto bg-muted-background dark:bg-foreground">
-            <AvatarImage
+           {
+            logoFrom == 'website'? (
+                <AvatarImage
+                    src={logoUrl}
+                    alt={altText}
+                    className="object-contain"
+                />
+            ) : (
+                 <AvatarImage
               src={logoUrl}
               alt={altText}
               className="object-contain"
             />
+            )
+           }
             <AvatarFallback>{altText[0]}</AvatarFallback>
           </Avatar>
         </div>
